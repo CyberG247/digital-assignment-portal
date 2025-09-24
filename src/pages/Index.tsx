@@ -1,10 +1,29 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, FileText, Users, Shield, Clock, CheckCircle } from "lucide-react";
+import LoadingScreen from "@/components/LoadingScreen";
+import StudentLoginForm from "@/components/StudentLoginForm";
+import { useStudentAuth } from "@/contexts/StudentAuthContext";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const { login } = useStudentAuth();
+
+  const handleStudentPortalClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowLoginForm(true);
+  };
+
+  const handleLogin = (studentData: { name: string; studentId: string }) => {
+    login(studentData);
+    // Navigate to student dashboard after login
+    window.location.href = '/student';
+  };
+
   const features = [
     {
       icon: FileText,
@@ -38,6 +57,10 @@ const Index = () => {
     }
   ];
 
+  if (isLoading) {
+    return <LoadingScreen onComplete={() => setIsLoading(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -55,11 +78,13 @@ const Index = () => {
               grading, and feedback. Perfect for students and educators.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild className="bg-gradient-primary shadow-medium text-lg px-8 py-6">
-                <Link to="/student">
-                  <FileText className="w-5 h-5 mr-2" />
-                  Student Portal
-                </Link>
+              <Button 
+                size="lg" 
+                onClick={handleStudentPortalClick}
+                className="bg-gradient-primary shadow-medium text-lg px-8 py-6 animate-fade-in"
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Student Portal
               </Button>
               <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6">
                 <Link to="/teacher">
@@ -139,6 +164,13 @@ const Index = () => {
           </Button>
         </div>
       </section>
+
+      {/* Student Login Modal */}
+      <StudentLoginForm
+        isOpen={showLoginForm}
+        onClose={() => setShowLoginForm(false)}
+        onLogin={handleLogin}
+      />
     </div>
   );
 };
