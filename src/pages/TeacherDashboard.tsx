@@ -1,50 +1,44 @@
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import AssignmentCard from "@/components/AssignmentCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CreateAssignmentModal from "@/components/CreateAssignmentModal";
+import GradeAssignmentModal from "@/components/GradeAssignmentModal";
+import AssignmentDetailsModal from "@/components/AssignmentDetailsModal";
 import { Button } from "@/components/ui/button";
-import { Users, FileText, Clock, CheckCircle, Plus } from "lucide-react";
-
-// Mock data for teacher assignments
-const mockTeacherAssignments = [
-  {
-    id: "1",
-    title: "React Component Architecture Essay",
-    description: "Write a comprehensive essay about React component architecture and best practices.",
-    dueDate: new Date(2024, 11, 15),
-    status: "submitted" as const,
-    subject: "Computer Science",
-    submissionsCount: 24,
-    totalStudents: 30,
-  },
-  {
-    id: "2",
-    title: "Database Design Project", 
-    description: "Design a relational database for an e-commerce application.",
-    dueDate: new Date(2024, 11, 20),
-    status: "pending" as const,
-    subject: "Database Systems",
-    submissionsCount: 15,
-    totalStudents: 28,
-  },
-  {
-    id: "3",
-    title: "JavaScript Algorithm Implementation",
-    description: "Implement sorting algorithms in JavaScript with performance analysis.",
-    dueDate: new Date(2024, 11, 10),
-    status: "graded" as const,
-    subject: "Algorithms",
-    submissionsCount: 25,
-    totalStudents: 25,
-    avgGrade: 87.5,
-  },
-];
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, FileText, Users, Award, Plus, CheckCircle, Clock } from "lucide-react";
+import { useAssignments } from "@/contexts/AssignmentContext";
 
 const TeacherDashboard = () => {
+  const { assignments } = useAssignments();
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showGradeModal, setShowGradeModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] = useState<any>(null);
+
+  // Calculate stats from real assignment data
   const stats = {
-    totalAssignments: mockTeacherAssignments.length,
-    pendingGrading: mockTeacherAssignments.filter(a => a.status === "submitted").length,
-    totalSubmissions: mockTeacherAssignments.reduce((acc, a) => acc + a.submissionsCount, 0),
-    avgGrade: 87.5,
+    totalAssignments: assignments.length,
+    pendingGrading: assignments.filter(a => a.status === "submitted").length,
+    totalSubmissions: assignments.reduce((sum, a) => sum + (a.submittedBy?.length || 0), 0),
+    averageGrade: assignments.filter(a => a.grade !== undefined).length > 0 
+      ? Math.round(assignments.filter(a => a.grade !== undefined).reduce((sum, a) => sum + (a.grade || 0), 0) / assignments.filter(a => a.grade !== undefined).length)
+      : 0
+  };
+
+  const handleCreateAssignment = () => {
+    setShowCreateModal(true);
+  };
+
+  const handleGradeAssignment = (assignment: any) => {
+    setSelectedAssignment(assignment);
+    setShowGradeModal(true);
+  };
+
+  const handleViewDetails = (assignment: any) => {
+    setSelectedAssignment(assignment);
+    setShowDetailsModal(true);
   };
 
   return (
@@ -57,7 +51,10 @@ const TeacherDashboard = () => {
             <h1 className="text-3xl font-bold text-foreground mb-2">Teacher Dashboard</h1>
             <p className="text-muted-foreground">Manage assignments and track student progress</p>
           </div>
-          <Button className="bg-gradient-primary shadow-medium">
+          <Button 
+            onClick={handleCreateAssignment}
+            className="bg-gradient-primary shadow-medium"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Create Assignment
           </Button>
@@ -65,101 +62,161 @@ const TeacherDashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-gradient-card border-0 shadow-soft">
+          <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Assignments</CardTitle>
-              <FileText className="h-4 w-4 text-primary" />
+              <BookOpen className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">{stats.totalAssignments}</div>
+              <p className="text-xs text-muted-foreground">assignments created</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card border-0 shadow-soft">
+          <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending Grading</CardTitle>
               <Clock className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">{stats.pendingGrading}</div>
+              <p className="text-xs text-muted-foreground">assignments awaiting grades</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card border-0 shadow-soft">
+          <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Submissions</CardTitle>
               <Users className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">{stats.totalSubmissions}</div>
+              <p className="text-xs text-muted-foreground">student submissions</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card border-0 shadow-soft">
+          <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Average Grade</CardTitle>
               <CheckCircle className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{stats.avgGrade}%</div>
+              <div className="text-2xl font-bold text-foreground">{stats.averageGrade}%</div>
+              <p className="text-xs text-muted-foreground">across all graded assignments</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Assignments Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockTeacherAssignments.map((assignment) => (
-            <Card key={assignment.id} className="transition-smooth hover:shadow-medium group cursor-pointer">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
-                  <CardTitle className="text-lg font-semibold group-hover:text-primary transition-smooth">
-                    {assignment.title}
-                  </CardTitle>
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">{assignment.subject}</p>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-2">{assignment.description}</p>
-                
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">Submissions:</span>
-                    <span className="font-medium">
-                      {assignment.submissionsCount}/{assignment.totalStudents}
-                    </span>
-                  </div>
-                  
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div 
-                      className="bg-gradient-primary h-2 rounded-full transition-smooth"
-                      style={{ width: `${(assignment.submissionsCount / assignment.totalStudents) * 100}%` }}
-                    />
-                  </div>
-                  
-                  {assignment.avgGrade && (
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground">Average Grade:</span>
-                      <span className="font-medium text-success">{assignment.avgGrade}%</span>
-                    </div>
-                  )}
-                </div>
+        {/* Assignments Section */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-foreground animate-fade-in">Assignment Management</h2>
+          
+          {/* Assignments Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {assignments.length > 0 ? (
+              assignments.map((assignment, index) => (
+                <div 
+                  key={assignment.id} 
+                  className="animate-slide-up" 
+                  style={{ animationDelay: `${0.1 * index}s` }}
+                >
+                  <Card className="transition-smooth hover:shadow-medium group cursor-pointer">
+                    <CardHeader className="pb-3">
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-lg font-semibold group-hover:text-primary transition-smooth">
+                          {assignment.title}
+                        </CardTitle>
+                        <Badge 
+                          className={
+                            assignment.status === "submitted" 
+                              ? "bg-primary text-primary-foreground" 
+                              : assignment.status === "graded"
+                              ? "bg-success text-success-foreground"
+                              : "bg-warning text-warning-foreground"
+                          }
+                        >
+                          {assignment.submittedBy?.length || 0} submissions
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground font-medium">{assignment.subject}</p>
+                    </CardHeader>
+                    
+                    <CardContent className="space-y-4">
+                      <p className="text-sm text-muted-foreground line-clamp-2">{assignment.description}</p>
+                      
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="text-muted-foreground">
+                          Progress: {assignment.submittedBy?.length || 0}/25 students
+                        </div>
+                        {assignment.grade && (
+                          <div className="text-success font-semibold">
+                            Avg: {assignment.grade}%
+                          </div>
+                        )}
+                      </div>
 
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <FileText className="w-4 h-4 mr-2" />
-                    View Details
-                  </Button>
-                  {assignment.status === "submitted" && (
-                    <Button size="sm" className="flex-1">
-                      Grade ({assignment.submissionsCount})
-                    </Button>
-                  )}
+                      <div className="flex gap-2 pt-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => handleViewDetails(assignment)} 
+                          className="flex-1"
+                        >
+                          <FileText className="w-4 h-4 mr-2" />
+                          View Details
+                        </Button>
+                        {assignment.status === "submitted" && (
+                          <Button 
+                            size="sm" 
+                            onClick={() => handleGradeAssignment(assignment)} 
+                            className="flex-1"
+                          >
+                            <Award className="w-4 h-4 mr-2" />
+                            Grade Assignment
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+                <h3 className="text-lg font-medium text-muted-foreground mb-2">No assignments created yet</h3>
+                <p className="text-muted-foreground mb-4">Get started by creating your first assignment for students.</p>
+                <Button onClick={handleCreateAssignment} className="bg-gradient-primary">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Your First Assignment
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Modals */}
+        <CreateAssignmentModal
+          isOpen={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+        />
+
+        <GradeAssignmentModal
+          assignment={selectedAssignment}
+          isOpen={showGradeModal}
+          onClose={() => {
+            setShowGradeModal(false);
+            setSelectedAssignment(null);
+          }}
+        />
+
+        <AssignmentDetailsModal
+          assignment={selectedAssignment}
+          isOpen={showDetailsModal}
+          onClose={() => {
+            setShowDetailsModal(false);
+            setSelectedAssignment(null);
+          }}
+        />
       </div>
     </div>
   );

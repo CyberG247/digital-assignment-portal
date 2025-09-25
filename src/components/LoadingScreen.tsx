@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BookOpen, Sparkles } from "lucide-react";
+import mitLogo from "@/assets/mit-logo.jpg";
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -28,8 +29,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       <div className="text-center text-primary-foreground">
         {/* Animated Logo */}
         <div className="relative mb-8">
-          <div className="animate-pulse-glow rounded-full bg-white/10 p-8 backdrop-blur-sm">
-            <BookOpen className="w-16 h-16 animate-bounce-in" />
+          <div className="animate-pulse-glow rounded-xl bg-white/10 p-6 backdrop-blur-sm">
+            <img 
+              src={mitLogo} 
+              alt="MIT WPU Logo" 
+              className="w-32 h-24 object-contain animate-bounce-in mx-auto"
+            />
           </div>
           <Sparkles className="absolute -top-2 -right-2 w-6 h-6 animate-bounce text-yellow-300" />
           <Sparkles className="absolute -bottom-2 -left-2 w-4 h-4 animate-bounce text-blue-300" style={{ animationDelay: '0.5s' }} />

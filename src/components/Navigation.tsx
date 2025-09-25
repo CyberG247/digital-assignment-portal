@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Users, FileText, BarChart3 } from "lucide-react";
+import mitLogo from "@/assets/mit-logo.jpg";
 
 const Navigation = () => {
   const location = useLocation();
@@ -17,11 +18,13 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-foreground">EduPortal</span>
+            <Link to="/" className="flex items-center space-x-3">
+              <img 
+                src={mitLogo} 
+                alt="MIT WPU Logo" 
+                className="w-10 h-8 object-contain"
+              />
+              <span className="text-xl font-bold text-foreground">MIT-WPU Assignment Portal</span>
             </Link>
           </div>
           
