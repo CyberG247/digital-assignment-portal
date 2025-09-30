@@ -62,16 +62,16 @@ const StudentDashboard = () => {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Dashboard Header with Student Info */}
-        <div className="mb-8 flex justify-between items-start">
+        <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
           <div className="animate-fade-in">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Student Dashboard</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Student Dashboard</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Welcome back! Here's an overview of your assignments and progress.
             </p>
           </div>
           
           {/* Student Info Card */}
-          <Card className="min-w-[280px] animate-slide-up">
+          <Card className="w-full sm:min-w-[280px] sm:max-w-[320px] animate-slide-up">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -79,8 +79,8 @@ const StudentDashboard = () => {
                     <User className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div>
-                    <CardTitle className="text-lg font-semibold">{student.name}</CardTitle>
-                    <p className="text-sm text-muted-foreground">ID: {student.studentId}</p>
+                    <CardTitle className="text-base sm:text-lg font-semibold">{student.name}</CardTitle>
+                    <p className="text-xs sm:text-sm text-muted-foreground">ID: {student.studentId}</p>
                   </div>
                 </div>
                 <Button 
@@ -101,7 +101,7 @@ const StudentDashboard = () => {
           <NotificationCenter />
 
           {/* Statistics Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Assignments</CardTitle>
@@ -152,11 +152,11 @@ const StudentDashboard = () => {
           {/* Assignments Section */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-foreground animate-fade-in">Your Assignments</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground animate-fade-in">Your Assignments</h2>
             </div>
             
             {/* Assignments Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {assignments.length > 0 ? (
                 assignments.map((assignment, index) => (
                   <div 

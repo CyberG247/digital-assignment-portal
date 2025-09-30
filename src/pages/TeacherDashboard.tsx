@@ -45,15 +45,15 @@ const TeacherDashboard = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Teacher Dashboard</h1>
-            <p className="text-muted-foreground">Manage assignments and track student progress</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Teacher Dashboard</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Manage assignments and track student progress</p>
           </div>
           <Button 
             onClick={handleCreateAssignment}
-            className="bg-gradient-primary shadow-medium"
+            className="bg-gradient-primary shadow-medium w-full sm:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create Assignment
@@ -61,7 +61,7 @@ const TeacherDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
           <Card className="bg-gradient-card border-0 shadow-soft animate-fade-in">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Assignments</CardTitle>
@@ -109,10 +109,10 @@ const TeacherDashboard = () => {
 
         {/* Assignments Section */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground animate-fade-in">Assignment Management</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground animate-fade-in">Assignment Management</h2>
           
           {/* Assignments Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {assignments.length > 0 ? (
               assignments.map((assignment, index) => (
                 <div 

@@ -66,27 +66,27 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground mb-4 sm:mb-6">
               Digital Assignment
               <span className="bg-gradient-primary bg-clip-text text-transparent"> Submission Portal</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
               Streamline your academic workflow with our secure, efficient platform for assignment submissions, 
               grading, and feedback. Perfect for students and educators.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
               <Button 
                 size="lg" 
                 onClick={handleStudentPortalClick}
-                className="bg-gradient-primary shadow-medium text-lg px-8 py-6 animate-fade-in"
+                className="bg-gradient-primary shadow-medium text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 animate-fade-in w-full sm:w-auto"
               >
                 <FileText className="w-5 h-5 mr-2" />
                 Student Portal
               </Button>
-              <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6">
+              <Button variant="outline" size="lg" asChild className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 w-full sm:w-auto">
                 <Link to="/teacher">
                   <Users className="w-5 h-5 mr-2" />
                   Teacher Portal
@@ -98,13 +98,13 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
               Why Choose EduPortal?
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Built for modern education with powerful features that make assignment management effortless.
             </p>
           </div>
@@ -131,35 +131,35 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">10,000+</div>
-              <div className="text-lg text-muted-foreground">Assignments Submitted</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2">10,000+</div>
+              <div className="text-base sm:text-lg text-muted-foreground">Assignments Submitted</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">500+</div>
-              <div className="text-lg text-muted-foreground">Active Teachers</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2">500+</div>
+              <div className="text-base sm:text-lg text-muted-foreground">Active Teachers</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-foreground mb-2">5,000+</div>
-              <div className="text-lg text-muted-foreground">Happy Students</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2">5,000+</div>
+              <div className="text-base sm:text-lg text-muted-foreground">Happy Students</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-hero text-primary-foreground">
+      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-hero text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 px-4">
             Ready to Transform Your Assignment Workflow?
           </h2>
-          <p className="text-xl opacity-90 mb-8">
+          <p className="text-base sm:text-lg md:text-xl opacity-90 mb-6 sm:mb-8 px-4">
             Join thousands of educators and students who've streamlined their academic process with EduPortal.
           </p>
-          <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+          <Button size="lg" variant="secondary" className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 w-full sm:w-auto mx-4">
             Get Started Today
           </Button>
         </div>
